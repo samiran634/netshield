@@ -1,1 +1,33 @@
+@import 'tailwindcss';
+ 
+
+/* Add your custom color variables */
+@layer base {
+  :root {
+    /* Your color variables will be defined here */
+    /* For example: */
+    --primary: #3b82f6;
+    --primary-500: #3b82f6;
+    --secondary: #10b981;
+    --secondary-500: #10b981;
+    /* Add more as needed based on your theme colors */
+  }
+}
+
+/* Define your aurora animation */
+@layer utilities {
+  .animate-aurora {
+    animation: aurora 60s linear infinite;
+  }
+  
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+    to {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
+}
+
  
