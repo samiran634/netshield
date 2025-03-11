@@ -33,14 +33,13 @@ Be extremely precise - only flag comments containing clear examples of hate spee
     });
     
     const data = await response.json();
-    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response from AI";
+    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
     
     // Only store and return meaningful responses (not "PASS")
     if (aiText && aiText.trim() !== "PASS") {
       latestAIResponse = aiText;
       return aiText;
     } else {
-      // Return null when no issues found
       latestAIResponse = null;
       return null;
     }
@@ -62,13 +61,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .catch(error => {
         sendResponse({ success: false, error: error.toString() });
       });
-    return true; // Required for async sendResponse
+    return true; 
   }
   if (request.action === "processComment") {
     processCommentWithAI(request.comment).then(aiResponse => {
       sendResponse({ success: true, aiResponse: aiResponse });
     });
-    return true; // Required for async response
+    return true;  
   }
   // Handle requests for the latest AI response
   if (request.action === "getLatestAIResponse") {
