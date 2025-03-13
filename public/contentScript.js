@@ -2,60 +2,6 @@
 let latestAIResponse = null;
 let commentHasIssues = false;
 let inputTaken="";
-// Function to process comment with AI
-async function processCommentWithAI(comment) {
-  try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCUFIqU7V9jQMmr69kXuVkQh38W4Xzsuho`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              { text: `Analyze this YouTube comment: "${comment}"
-
-Check ONLY for the following three specific issues:
-1. Hate speech (targeting individuals or groups based on protected characteristics)
-2. Vulgar language (profanity, explicit sexual content, excessive swearing)
-3. Misinformation (demonstrably false claims about important topics)
-
-If NONE of these specific issues are found, respond with "PASS" only.
-
-If any of these issues ARE found, respond in this exact format:
-"ISSUE_FOUND: [brief description of specific issue]
-SUGGESTION: [polite alternative version of the comment]"
-
-Be extremely precise - only flag comments containing clear examples of hate speech, vulgar language, or demonstrably false information.` }
-            ]
-          }
-        ]
-      }),
-    });
-    
-    const data = await response.json();
-    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response from AI";
-    
-    // Check if there are issues
-    if (aiText && aiText.trim() !== "PASS") {
-      latestAIResponse = aiText;
-      commentHasIssues = true;
-      return aiText;
-    } else {
-      // No issues found
-      latestAIResponse = null;
-      commentHasIssues = false;
-      return null;
-    }
-  } catch (error) {
-    console.error("AI processing error:", error);
-    // Don't block submission in case of error
-    commentHasIssues = false;
-    return "Error processing with AI";
-  }
-}
-
 function findCommentBox() {
   let commentBox = document.querySelector("#contenteditable-root");
   
@@ -136,12 +82,22 @@ function findCommentBox() {
     commentBox.addEventListener("input", function() {
       // Clear any existing interval
       if (checkInterval) clearInterval(checkInterval);
-      inputTaken+=commentBox.innerText;
-      
+      var previousComment="";
+      var counter=0;
       checkInterval = setInterval(() => {
+        console.log(commentBox.innerText)
+        if(commentBox.innerText==previousComment){
+          counter++;
+          if(counter==5){
+            clearInterval(checkInterval);
+          }
+        }else{
+          counter=0;
+          previousComment=commentBox.innerText;
+        }
         chrome.runtime.sendMessage({
           action: "processComment",
-          comment: inputTaken,
+          comment: commentBox.innerText,
         }, response => {
           console.log("Response from background script:", response);
           
