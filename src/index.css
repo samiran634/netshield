@@ -1,33 +1,69 @@
 @import 'tailwindcss';
- 
 
-/* Add your custom color variables */
 @layer base {
   :root {
-    /* Your color variables will be defined here */
-    /* For example: */
-    --primary: #3b82f6;
-    --primary-500: #3b82f6;
-    --secondary: #10b981;
-    --secondary-500: #10b981;
-    /* Add more as needed based on your theme colors */
+   
+    --primary: #ff0000;  
+    --primary-500: #cc0000;  
+    --background-light: #ffffff;
+    --background-dark: #181818;
+    --text-light: #0f0f0f;
+    --text-dark: #f1f1f1;
+    --border-color: #3d3d3d;
+  }
+ 
+  .light-mode {
+    --bg-primary: var(--background-light);
+    --text-primary: var(--text-light);
+  }
+
+ 
+  .dark-mode {
+    --bg-primary: var(--background-dark);
+    --text-primary: var(--text-dark);
+  }
+}
+
+@layer components {
+ 
+  .comment-box {
+    @apply flex items-center space-x-3 p-2 border rounded-lg;
+    border-color: var(--border-color);
+    background-color: var(--bg-primary);
+  }
+
+  /* Comment Section */
+  .comment-section {
+    @apply max-w-2xl mx-auto shadow-md p-4 rounded-lg;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  /* Comment Input */
+  .comment-input {
+    @apply flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2;
+  }
+
+  /* Like and Reply Buttons */
+  .comment-actions {
+    @apply flex text-xs text-gray-500 space-x-4 mt-1 cursor-pointer;
   }
 }
 
 /* Define your aurora animation */
 @layer utilities {
   .animate-aurora {
-    animation: aurora 60s linear infinite;
+    animation: aurora 30s ease-in-out infinite alternate;
+    background: linear-gradient(45deg, #ff0000, #282828, #ff0000);
+    background-size: 400% 400%;
   }
-  
+
   @keyframes aurora {
-    from {
-      background-position: 50% 50%, 50% 50%;
+    0% {
+      background-position: 0% 50%;
     }
-    to {
-      background-position: 350% 50%, 350% 50%;
+    100% {
+      background-position: 100% 50%;
     }
   }
 }
-
- 
