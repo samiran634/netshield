@@ -71,7 +71,7 @@ To test the **Chrome Extension** locally:
 │   ├── src/              # React/JavaScript frontend
 │   ├── public/           # Static assets
 │   ├── package.json      # Dependencies and scripts
-│   └── index.js          # Entry point for the web demo
+│   └── index.js in index.html          # Entry point for the web demo
 │
 ├── README.md             # Project documentation
 └── .gitignore            # Files to ignore in GitHub
