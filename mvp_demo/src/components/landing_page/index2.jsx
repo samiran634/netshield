@@ -1,7 +1,32 @@
-import React, { useState, useEffect } from "react";
-import CommentBox from "../youtubecomment/commentbox";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // Import navigate
 
-const HomePage = () => {
+const CommentBox = ({ comment, username }) => {
+  return (
+    <div className="flex p-3">
+      <img
+        src={`https://i.pravatar.cc/40?u=${username}`}
+        alt={`${username}'s Avatar`}
+        className="w-8 h-8 rounded-full mr-3"
+      />
+      <div className="flex-1">
+        <div className="flex items-center space-x-2">
+          <p className="font-semibold text-sm text-gray-300">{username}</p>
+        </div>
+        <p className="text-gray-100 text-sm">{comment}</p>
+        <div className="flex text-xs text-gray-500 space-x-4 mt-1">
+          <span className="cursor-pointer hover:text-blue-500">Like</span>
+          <span className="cursor-pointer hover:text-blue-500">Reply</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const HomePage2 = () => {
+  const navigate = useNavigate();
+  
   const youtubeComments = [
     { id: 1, username: "ToxicDude99", comment: "This video is garbage. Stop making content!" },
     { id: 2, username: "NiceGuy123", comment: "Great video! Really learned a lot, keep it up!" },
@@ -48,151 +73,73 @@ const HomePage = () => {
     { id: 49, username: "BoredGuy", comment: "I almost fell asleep watching this." },
     { id: 50, username: "SuperFan", comment: "You're gonna blow up soon, I can feel it!" },
   ];
+
   const [comments, setComments] = useState(youtubeComments);
-  const [comment, setComment] = useState("");
-  const [isChecking, setIsChecking] = useState(false);
-  const [aiSuggestion, setAiSuggestion] = useState(null);
-  const [isBlocked, setIsBlocked] = useState(false);
-  let typingTimeout = null;
-
-  
-  async function processCommentWithAI(comment) {
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMENAI_KEY}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  {
-                    text: `Analyze this YouTube comment: "${comment}"
-                      
-                      Check ONLY for the following three specific issues:
-                      1. Hate speech
-                      2. Vulgar language
-                      3. Misinformation
-                      
-                      If NONE of these issues are found, respond with "PASS".
-                      If issues are found, respond in this exact format:
-                      "ISSUE_FOUND: [brief description]
-                      SUGGESTION: [polite alternative version]"`,
-                  },
-                ],
-              },
-            ],
-          }),
-        }
-      );
-
-      const data = await response.json();
-      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "PASS";
-
-      if (aiText !== "PASS") {
-        setAiSuggestion(aiText);
-        setIsBlocked(true);
-      } else {
-        setAiSuggestion(null);
-        setIsBlocked(false);
-      }
-    } catch (error) {
-      console.error("AI processing error:", error);
-    }
-  }
-
-  // Delay AI request after typing stops for 5 seconds
-  useEffect(() => {
-    if (comment.trim() === "") {
-      setAiSuggestion(null);
-      setIsBlocked(false);
-      return;
-    }
-
-    setIsChecking(true);
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
-      processCommentWithAI(comment);
-      setIsChecking(false);
-    }, 5000);
-
-    return () => clearTimeout(typingTimeout);
-  }, [comment]);
+  const [newComment, setNewComment] = useState("");
 
   // Handle comment submission
   const handleAddComment = () => {
-    if (isBlocked) return;
-    setComments([{ id: Date.now(), username: "User", comment }, ...comments]);
-    setComment("");
+    if (newComment.trim() === "") return;
+    
+    const userComment = {
+      id: Date.now(),
+      username: "User",
+      comment: newComment,
+    };
+
+    // Animate new comment on top
+    setComments([userComment, ...comments]);
+    setNewComment("");
   };
 
   return (
     <div className="max-w-full lg:max-w-2xl mx-auto bg-[#181818] text-white shadow-lg p-4 rounded-lg mt-6 mb-2">
+      
+      {/* Comment Input Section */}
       <div className="flex items-center space-x-3 mb-4">
-        <img
-          src="https://i.pravatar.cc/40"
-          alt="User Avatar"
-          className="w-10 h-10 rounded-full"
-        />
+        <img src="https://i.pravatar.cc/40" alt="User Avatar" className="w-10 h-10 rounded-full" />
         <input
           type="text"
           className="flex-1 border border-gray-600 bg-[#202020] p-2 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           placeholder="Add a comment..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
         />
         <button
           onClick={handleAddComment}
-          disabled={isBlocked}
-          className={`px-4 py-2 rounded-lg ${
-            isBlocked ? "bg-gray-500 cursor-not-allowed" : "bg-red-500 hover:bg-red-600"
-          }`}
+          className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 transition-all"
         >
           Comment
         </button>
       </div>
 
-      {/* AI Suggestion Box */}
-      {aiSuggestion && (
-        <div className="bg-yellow-200 text-yellow-900 p-3 rounded-lg mb-3">
-          <p className="text-sm">⚠ AI detected an issue in your comment.</p>
-          <p className="font-semibold">Suggestion:</p>
-          <p className="italic">{aiSuggestion.split("SUGGESTION:")[1]?.trim()}</p>
-          <div className="flex gap-2 mt-2">
-            <button
-              onClick={() => {
-                setComment(aiSuggestion.split("SUGGESTION:")[1]?.trim() || comment);
-                setAiSuggestion(null);
-                setIsBlocked(false);
-              }}
-              className="bg-green-500 text-white px-3 py-1 rounded-lg"
+      {/* Comments Section with Animation */}
+      <div className="space-y-4 h-[28em] rounded-2xl shadow overflow-auto relative p-2">
+        <AnimatePresence>
+          {comments.map((c) => (
+            <motion.div
+              key={c.id}
+              className="bg-[#202020] rounded-lg"
+              initial={{ opacity: 0, x: 50 }} // Initial position off-screen
+              animate={{ opacity: 1, x: 0 }} // Animate into view
+              exit={{ opacity: 0, x: -50 }} // Exit animation
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              Accept Suggestion
-            </button>
-            <button
-              onClick={() => {
-                setAiSuggestion(null);
-                setIsBlocked(true);
-              }}
-              className="bg-red-500 text-white px-3 py-1 rounded-lg"
-            >
-              Reject
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Comments Section */}
-      <div className="space-y-4 h-[28em] rounded-2xl shadow overflow-auto">
-        {comments.map((c) => (
-          <CommentBox key={c.id} comment={c.comment} username={c.username} />
-        ))}
+              <CommentBox comment={c.comment} username={c.username} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        
+        {/* Attractive Navigation Button */}
       </div>
+        <button
+          onClick={() => navigate("/extension-features")}
+          className="absloute mb-2 mr-2 px-4 py-2 text-white font-semibold cursor-pointer rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg"
+        >
+          After appling the extension, click here to see the magic!
+        </button>
     </div>
   );
 };
 
-export default HomePage;
+export default HomePage2;
