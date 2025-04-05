@@ -28,9 +28,6 @@ const HomePage2 = () => {
   const navigate = useNavigate();
   
   const youtubeComments = [
-    { id: 1, username: "ToxicDude99", comment: "This video is garbage. Stop making content!" },
-    { id: 2, username: "NiceGuy123", comment: "Great video! Really learned a lot, keep it up!" },
-    { id: 3, username: "AngryUser77", comment: "You have no idea what you're talking about. Just quit." },
     { id: 4, username: "Supporter22", comment: "Wow! This is so well explained. Subscribed!" },
     { id: 5, username: "Hater101", comment: " You dress like a scarecrow that got rejected by a thrift store, you tacky, mismatched fuckwit—your wardrobe’s a crime scene, and the victim’s taste, you clown-shoed catastrophe." },
     { id: 6, username: "PositiveVibes", comment: "Amazing work! Keep going and don't let haters get to you!" },

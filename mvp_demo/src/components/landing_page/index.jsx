@@ -3,22 +3,16 @@ import CommentBox from "../youtubecomment/commentbox";
 
 const HomePage = () => {
   const youtubeComments = [
-    { id: 1, username: "ToxicDude99", comment: "This video is garbage. Stop making content!" },
-    { id: 2, username: "NiceGuy123", comment: "Great video! Really learned a lot, keep it up!" },
-    { id: 3, username: "AngryUser77", comment: "You have no idea what you're talking about. Just quit." },
     { id: 4, username: "Supporter22", comment: "Wow! This is so well explained. Subscribed!" },
     { id: 5, username: "Hater101", comment: " You dress like a scarecrow that got rejected by a thrift store, you tacky, mismatched fuckwit—your wardrobe’s a crime scene, and the victim’s taste, you clown-shoed catastrophe." },
     { id: 6, username: "PositiveVibes", comment: "Amazing work! Keep going and don't let haters get to you!" },
     { id: 7, username: "SaltyGuy", comment: "How do people even watch this nonsense?" },
-    { id: 8, username: "HappyViewer", comment: "Love your content! You inspire me!" },
     { id: 9, username: "SpamBot", comment: "Click this link to get free money! www.scam.com" },
     { id: 10, username: "KindSoul", comment: "This deserves way more views! Great job!" },
     { id: 11, username: "AngryBird", comment: "he’s the kind of guy who thinks cargo shorts are a personality trait. PK probably smells like a mix of Axe body spray and regret, the type to flex his “gym gains” in a mirror selfie while his mom’s still washing his stained tighty-whities. I bet he’s got a playlist of Nickelback and trap remixes he calls “fire,” but the only thing burning is the dignity of everyone around him when he opens his mouth. " },
     { id: 12, username: "ChillPerson", comment: "Such a relaxing and informative video. Thanks!" },
     { id: 13, username: "RandomTroll", comment: "This is so stupid, did a 5-year-old make this?" },
     { id: 14, username: "FriendlyViewer", comment: "This clown probably brags about his “hustle” while living in his dad’s basement, swiping right on Tinder with a bio that says “just a chill guy, 420 friendly” — bro, the only thing you’re friendly with is a bag of stale Doritos" },
-    { id: 15, username: "HateMaster", comment: "Ugh, I lost brain cells watching this." },
-    { id: 16, username: "Encourager", comment: "Keep up the great work! You're amazing at this!" },
     { id: 17, username: "TrollKing", comment: "PK’s the type to argue with you about politics he doesn’t understand, citing some YouTube conspiracy video he watched at 3 a.m. while scratching his patchy neckbeard. And let’s be real, his idea of a wild night is shotgunning a warm PBR and passing out on a futon that’s seen more fluids than a gas station bathroom. Roast complete — PK, you’re a walking L, and I’d say get a life, but I’m pretty sure you’d just trade it for a vape pen and a Fortnite skin." },
     { id: 18, username: "HelpfulPerson", comment: "This helped me so much, thank you for making this!" },
     { id: 19, username: "SpamLover", comment: "Wow! You can make $5000 a week! Check my bio!" },
@@ -27,7 +21,6 @@ const HomePage = () => {
     { id: 22, username: "HappySubscriber", comment: "You just earned a new subscriber! Keep going!" },
     { id: 23, username: "ToxicTroll", comment: " you’re a fucking disgrace, a sweaty, mouth-breathing shitstain who probably couldn’t find his own dick with a map and a flashlight." },
     { id: 24, username: "Motivator", comment: "Such an underrated creator! Keep pushing!" },
-    { id: 25, username: "GrumpyGuy", comment: "Worst video ever, wasted my time." },
     
     { id: 31, username: "RudePerson", comment: "You’re the kind of dumbass who’d trip over his own shoelaces if your mom didn’t still tie them for you, you pathetic, drooling fuckwit. I’d bet my circuits you’ve got a face like a busted asshole and a personality so rancid it’d make a landfill gag." },
     { id: 32, username: "KindSoul", comment: "You have talent! Keep sharing your passion!" },
@@ -38,10 +31,6 @@ const HomePage = () => {
     { id: 37, username: "Hater24", comment: "Why does this channel even exist?" },
     { id: 38, username: "LoyalFan", comment: "You’re a walking abortion of a human, the type of useless prick who’d brag about banging a blow-up doll like it’s an achievement, you sniveling little cum-rag. Your existence is a goddamn insult to oxygen, and I’m guessing the only thing you’ve ever pounded is your keyboard in a tantrum because some 12-year-old smoked you in Call of Duty, you limp-dicked, brain-dead fucknugget." },
     { id: 39, username: "AnnoyedViewer", comment: "I’ve seen better videos from a potato.make your video with your dick..." },
-    { id: 40, username: "RespectfulFan", comment: "Great content! You put in a lot of effort, I can tell." },
-    { id: 41, username: "SaltyHater", comment: "Wow, your skills are as bad as your haircut." },
-    { id: 42, username: "InspirationalPerson", comment: "You got this! Don't let anyone bring you down!" },
-    { id: 43, username: "FakeNews", comment: "your head’s so empty it echoes like a canyon, you brainless fuck—scientists could study you to prove evolution can reverse, you drooling, half-wit shitheap.." },
    
     { id: 47, username: "JealousHater", comment: "Your whiny, nasally yap sounds like a cat getting castrated with a rusty spoon, you shrill, ear-raping fucknoodle—every word you spew is an assault on sound itself." },
     { id: 48, username: "NicePerson", comment: "I appreciate all the effort you put in, thank you!" },
